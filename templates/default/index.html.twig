@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1 class="h3">
+        Listes des attestations &nbsp; 
+        <a href="{{ path('app_attestation_create') }}" class="btn btn-success">Ajouter</a>
+    </h1>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Etudiant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attestation in attestations %}
+                <tr>
+                    <th scope="row">{{ attestation.id }}</th>
+                    <td>{{ attestation.etudiant.prenom ~ ' ' ~ attestation.etudiant.nom }}</td>
+                    <td>
+                        <a href="{{ path('app_attestation_edit', {id: attestation.id}) }}" class="btn btn-warning">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Générer une attestation</h1>
+    <form action="{{ path('app_attestation_create') }}" method="post" onsumbmit="alert('submitted')">
+        <div class="form-group">
+            <label for="etudiant" class="form-label">Etudiants</label>
+            <select name="etudiant" id="etudiant" class="form-select" required onchange="getConvention(this)" disabled>
+                <option value="">Selectionner une option</option>
+                {% for etudiant in etudiants %}
+                    <option value="{{ etudiant.id }}" {% if etudiant.id == attestation.etudiant.id %}selected{% endif %}>{{ etudiant.prenom ~ ' ' ~ etudiant.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="convention" class="form-label">Conventions</label>
+            <input type="text" class="hidden" value="{{ attestation.convention.id }}" name="convention" id="convention">
+            <input type="text" class="form-control" id="conventionName" value="{{ attestation.convention.nom }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea name="message" id="message" cols="30" rows="6" class="form-control" required>{{ attestation.message }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Générer l'attestation</button>
+    </form>
+
+    <div class="col-12 mt-5" id="attestation">
+    
+        <div class="row">
+            <div class="bg-light rounded border">
+                <p>Bonjour <span id="#attestation-etudiant-nom">{{ attestation.etudiant.nom }}</span> <span id="#attestation-etudiant-prenom">{{ attestation.etudiant.prenom }}</span></p>
+                <p>Vous avez suivi <span id="#attestation-etudiant-nom">{{ attestation.convention.nbHeur  }}</span> heures de formation chez FormationPlus.</p>
+                <p>Pouvez-vous nous retourner ce mail avec la pièce jointe signée.</p>
+                <p>Cordialement,</p>
+                <p>FormationPlus</p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload = () => generateAttestation("{{ attestation.id }}");
+    </script>
+{% endblock %}

@@ -1,0 +1,46 @@
+.toast.show {
+    animation: showAlert .3s forwards
+}
+
+.toast.hide {
+    animation: hideAlert .3s forwards
+}
+
+.flash .toast {
+    border-right-width: 5px;
+    max-width: 450px;
+    position: fixed;
+    bottom: 3.5em;
+    left: -1000px;
+    z-index: 99999999
+}
+
+@keyframes showAlert {
+    0% {
+        left: 0
+    }
+    50% {
+        left: 15px
+    }
+    90% {
+        left: 10px
+    }
+    100% {
+        left: 15px
+    }
+}
+
+@keyframes hideAlert {
+    0% {
+        left: 15px
+    }
+    50% {
+        left: 10px
+    }
+    90% {
+        left: 15px
+    }
+    100% {
+        left: -1000px
+    }
+}
