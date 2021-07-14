@@ -3,8 +3,6 @@ const getConvention = (el) => {
     const conventionName = document.getElementById('conventionName');
     const message = document.getElementById('message');
 
-    console.log({ val: el.value })
-
     if (el.value !== "") {
         const url = '/convention/' + el.value;
 
@@ -24,12 +22,12 @@ const getConvention = (el) => {
             })
         return;
     }
+
     conventionName.value = "";
     return convention.value = "";
 }
 
 const setMessage = (data, container) => {
-    console.log(data)
     return container.innerHTML = `
         Bonjour ${data.etudiants[0].nom} ${data.etudiants[0].prenom},\n\r
         Vous avez suivi ${data.nbHeur} heures de formation chez FormationPlus.\n\r
@@ -39,8 +37,8 @@ const setMessage = (data, container) => {
     `;
 }
 
-const generate = (form, event) => {
-    event.preventDefault();
+const handleAttestation = (form, e) => {
+    e.preventDefault();
 
     const data = {
         etudiant: parseInt(document.getElementById('etudiant').value),
@@ -52,7 +50,6 @@ const generate = (form, event) => {
     axios
         .post(url, data)
         .then(({ data, status, headers }) => {
-            console.log(data)
             if (status === 201) {
                 if (headers.hasOwnProperty('location')) {
                     flash('Attestation créée 🚀');

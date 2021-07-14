@@ -2,7 +2,7 @@
 
 {% block body %}
     <h1>Générer une attestation</h1>
-    <form action="{{ path('app_attestation_create') }}" method="post" onsumbmit="alert('submitted')">
+    <form action="{{ path('app_attestation_create') }}" method="post" onsubmit="handleAttestation(this, event)">
         <div class="form-group">
             <label for="etudiant" class="form-label">Etudiants</label>
             <select name="etudiant" id="etudiant" class="form-select" required onchange="getConvention(this)" disabled>
@@ -27,12 +27,15 @@
     <div class="col-12 mt-5" id="attestation">
     
         <div class="row">
-            <div class="bg-light rounded border">
+            <div class="bg-light rounded border attestation-message">
                 <p>Bonjour <span id="#attestation-etudiant-nom">{{ attestation.etudiant.nom }}</span> <span id="#attestation-etudiant-prenom">{{ attestation.etudiant.prenom }}</span></p>
                 <p>Vous avez suivi <span id="#attestation-etudiant-nom">{{ attestation.convention.nbHeur  }}</span> heures de formation chez FormationPlus.</p>
                 <p>Pouvez-vous nous retourner ce mail avec la pièce jointe signée.</p>
                 <p>Cordialement,</p>
                 <p>FormationPlus</p>
+                <div class="attestation-overlay">
+                    <a href="{{ path('app_attestation_pdf', {id: attestation.id}) }}" class="btn btn-primary">Générer un pdf</a>
+                </div>
             </div>
         </div>
 
@@ -41,6 +44,6 @@
 
 {% block javascripts %}
     <script>
-        window.onload = () => generateAttestation("{{ attestation.id }}");
+        window.onload = () => generateAttestationPDF("{{ attestation.id }}");
     </script>
 {% endblock %}

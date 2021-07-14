@@ -56,14 +56,14 @@ class AttestationServices implements AttestationServicesInterface
 
     public function store(Request $request): object
     {
-        $data = (array) $request->request->all();
+        $data = (array) json_decode($request->getContent());
 
         $etudiant = $this->etudiantRepository->find((int) $data['etudiant']);
         $convention = $this->conventionRepository->find((int) $data['convention']);
 
         // Vérifier si une attestation existe avec l'étudiant et la convention
         $attestationExist = $this->attestationRepository->findOneBy(['convention' => $convention, 'etudiant' => $etudiant]) ?? false;
-        
+
         $attestation = !$attestationExist ? new Attestation : $attestationExist;
 
         $attestation->setConvention($convention)
